@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>建造者模式</title>
+</head>
+
+<body>
+    <script>
+        // 创建一个应聘者的类
+        var Human = function (param) {
+            this.skill = param && param.skill || '保密';
+            this.hobby = param && param.hobby || '保密';
+        }
+
+        Human.prototype = {
+            getSkill: function () {
+                return this.skill;
+            },
+            getHobby: function () {
+                return this.hobby;
+            }
+        }
+
+        // 实例化姓名类
+        var Named = function (name) {
+            var _this = this;
+            (function (name, that) {
+                that.wholeName = name;
+                if (name.indexOf(' ') > -1) {
+                    that.firstName = name.slice(0, name.indexOf(' '));
+                    that.secondName = name.slice(name.indexOf(' ') + 1);
+                }
+            })(name, _this);
+        }
+
+        // 实例化职位类
+        Work = function (work) {
+            var _this = this;
+            (function (work, that) {
+                switch (work) {
+                    case 'code':
+                        that.work = '程序猿';
+                        that.workDescript = '每天沉醉于编程';
+                        break;
+                    case 'UI':
+                    case 'UE':
+                        that.work = '设计';
+                        that.workDescript = '设计也是一种艺术';
+                        break;
+                    case 'teach':
+                        that.work = '教师';
+                        that.workDescript = '分享也是一种快乐';
+                        break;
+                    default:
+                        that.work = work;
+                        that.workDescript = '对不起，我们还不清楚您所选择职位的相关描述';
+                }
+            })(work, _this);
+        }
+
+        Work.prototype.changeWork = function (work) {
+            this.work = work;
+        }
+
+        Work.prototype.changeDescript = function (setence) {
+            this.workDescript = setence;
+        }
+
+        // 创建建造者模式函数
+        var Person = function (name, work, param) {
+            var param = param || '';
+            var _person = new Human(param);
+            _person.name = new Named(name);
+            _person.work = new Work(work);
+            return _person;
+        }
+
+        // 使用建造者创建实例
+        var person = new Person('Sun Tingting', 'code');
+        console.log(person.name.wholeName);
+        console.log(person.name.firstName);
+        console.log(person.name.secondName);
+        console.log(person.work.work);
+        console.log(person.work.workDescript);
+        console.log(person.skill);
+        console.log(person.hobby);
+
+        person.work.changeWork('Java');
+        person.work.changeDescript('专业后台');
+        console.log(person.work.work);
+        console.log(person.work.workDescript);
+    </script>
+</body>
+
+</html>

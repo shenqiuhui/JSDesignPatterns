@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>原型模式</title>
+</head>
+
+<body>
+    <script>
+        // 基于已经存在的模板对象克隆出新对象的模式
+        function prototypeExtend() {
+            function F() {};
+            var arg = arguments,
+                len = arguments.length;
+            for (var i = 0; i < len; i++) {
+                for (var k in arg[i]) {
+                    F.prototype[k] = arg[i][k];
+                }
+            }
+            return new F();
+        }
+
+        // 使用
+        var penguin = prototypeExtend({
+            speed: 20,
+            swim: function () {
+                console.log('游泳速度' + this.speed);
+            }
+        }, {
+            run: function (speed) {
+                console.log('奔跑速度' + speed);
+            }
+        }, {
+            jump: function () {
+                console.log('跳跃动作');
+            }
+        });
+
+        penguin.swim();
+        penguin.run(50);
+        penguin.jump();
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>单例模式</title>
+</head>
+
+<body>
+    <script>
+        // 单例模式实现静态私有变量，无法修改但可从外部访问
+        var Conf = (function () {
+            var conf = {
+                MAX_NUM: 100,
+                MIN_NUM: 1,
+                COUNT: 1000
+            };
+
+            return {
+                getStatic: function (name) {
+                    return conf[name] ? conf[name] : null;
+                }
+            }
+        })();
+
+        var count = Conf.getStatic('COUNT');
+        console.log(count);
+    </script>
+    <script>
+        // 惰性单例模式（需要时创建）
+        var LazySingle = (function () {
+            var _instance = null;
+
+            function Single() {
+                var conf = {
+                    MAX_NUM: 100,
+                    MIN_NUM: 1,
+                    COUNT: 1000
+                };
+                return {
+                    getStatic: function (name) {
+                        return conf[name] ? conf[name] : null;
+                    }
+                }
+            }
+
+            return function () {
+                if(!_instance) {
+                    _instance = Single();
+                }
+                return _instance;
+            }
+        })();
+
+        console.log(LazySingle().getStatic('COUNT'));
+    </script>
+</body>
+
+</html>

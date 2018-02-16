@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>安全工厂模式</title>
+</head>
+<body>
+    <div id="box">
+        <ul id="li_con"></ul>
+    </div>
+    <script>
+        var Subject = function (type, contentObj) {
+            if(this instanceof Subject) {
+                return this[type](contentObj);
+            } else {
+                return new Subject(type, contentObj);
+            }
+        }
+        Subject.prototype = {
+            JavaScript: function (contentObj) {
+                this.render(contentObj);
+            },
+            Java: function (contentObj) {
+                this.render(contentObj);
+            },
+            php: function (contentObj) {
+                this.render(contentObj);
+            },
+            UI: function (contentObj) {
+                this.render(contentObj);
+            },
+            Python: function (contentObj) {
+                this.render(contentObj);
+            },
+            Ruby: function (contentObj) {
+                this.render(contentObj);
+            },
+            render: function (contentObj) {
+                var content = this.content = contentObj.content;
+                (function (content) {
+                    var li = document.createElement('li');
+                    var ul = document.getElementById('li_con');
+                    li.innerHTML = content;
+                    ul.appendChild(li);
+                })(content);
+            }
+        }
+
+        var data = [
+            {type: 'JavaScript', content: 'JavaScript哪家强'},
+            {type: 'Java', content: 'Java哪家强'},
+            {type: 'php', content: 'php哪家强'},
+            {type: 'UI', content: 'UI哪家强'},
+            {type: 'Python', content: 'Python哪家强'},
+            {type: 'Ruby', content: 'Ruby哪家强'}
+        ];
+
+        data.forEach(function (val) {
+            var type = val.type;
+            new Subject(type, val);
+        });
+    </script>
+</body>
+</html>
